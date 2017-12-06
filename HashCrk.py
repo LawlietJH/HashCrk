@@ -5,7 +5,7 @@
 
 # HashCrk.py
 # By: LawlietJH
-# v1.0.3
+# v1.0.4
 
 import hashlib
 import time
@@ -13,7 +13,7 @@ import sys
 import os
 
 PythonVer = sys.version[0]
-Version = "v.1.0.2"
+Version = "v.1.0.4"
 
 
 
@@ -34,6 +34,13 @@ def Tiempo(Funcion):
 
 @Tiempo
 def HashCrk(HASH, Tipo):
+	
+	if   len(HASH) == 32  and Tipo != "md5":    return "El HASH Es MD5"
+	elif len(HASH) == 40  and Tipo != "sha1":   return "El HASH Es SHA1"
+	elif len(HASH) == 56  and Tipo != "sha224": return "El HASH Es SHA224"
+	elif len(HASH) == 64  and Tipo != "sha256": return "El HASH Es SHA256"
+	elif len(HASH) == 96  and Tipo != "sha384": return "El HASH Es SHA384"
+	elif len(HASH) == 128 and Tipo != "sha512": return "El HASH Es SHA512"
 	
 	TI = time.time()
 	TF = TI
@@ -63,13 +70,14 @@ def HashCrk(HASH, Tipo):
 		hash = H.hexdigest()
 		
 		#~ if Cont % 12000 == 0: sys.stdout.writelines("\r  >  " + ''.join([chr(C) for C in L]) + " <- # " + str(Cont))
-		if Cont % 12000 == 0: 
+		if Cont % 12000 == 0:
+			
 			TF = time.time()
-			sys.stdout.writelines("\r  >  " + hash + " <- Tiempo: {:0.3f} s".format(float(TF-TI)))
+			sys.stdout.writelines("\r  >  " + hash[:30] + " <- Tiempo: {:0.3f} s".format(float(TF-TI)))
 		
 		if hash == HASH:
 			
-			sys.stdout.writelines("\r  >  " + hash + " <- Tiempo: {:0.3f} s".format(float(TF-TI)))
+			sys.stdout.writelines("\r  >  " + hash + "                            ")
 			return ''.join([chr(C) for C in L])
 		
 		Envuelto = True
@@ -183,8 +191,8 @@ if __name__ == "__main__":
 	
 	os.system("Cls")
 	
-	print(hashlib.algorithms_guaranteed)
-	os.system("Pause")
+	#~ print(hashlib.algorithms_guaranteed)
+	#~ os.system("Pause")
 	
 	while True:
 		
@@ -204,14 +212,14 @@ if __name__ == "__main__":
 		
 		if EsHASH(Cadena):
 			
-			HASH = Cadena 
+			HASH = Cadena
 			
 			print("\n\n [+] Buscando Coincidencias Y Mostrando cada 12 mil Hashes Probados:\n\n")
-			print("\n\n\t [+] Descifrado " + Tipo + ": " + HashCrk(HASH, Tipo))
+			print("\n\n\t [+] Descifrado " + Tipo.upper() + ": " + HashCrk(HASH, Tipo))
 			os.system("Pause > Nul && Cls")
 		
 		else:
 			
-			print("\n\n\t [+] HASH " + Tipo + ": " + str(HASH) + "\n\n")
+			print("\n\n\t [+] HASH " + Tipo.upper() + ": " + str(HASH) + "\n\n")
 
 
