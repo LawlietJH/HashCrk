@@ -5,7 +5,7 @@
 
 # HashCrk.py
 # By: LawlietJH
-# v1.0.2
+# v1.0.3
 
 import hashlib
 import time
@@ -36,6 +36,7 @@ def Tiempo(Funcion):
 def HashCrk(HASH, Tipo):
 	
 	TI = time.time()
+	TF = TI
 	Cont = 0
 	L = []
 	L.append(32)
@@ -45,15 +46,19 @@ def HashCrk(HASH, Tipo):
 		
 		Cont += 1
 		
-		if   Tipo == "md5":    H = hashlib.md5()
-		elif Tipo == "sha1":   H = hashlib.sha1()
-		elif Tipo == "sha224": H = hashlib.sha224()
-		elif Tipo == "sha256": H = hashlib.sha256()
-		elif Tipo == "sha384": H = hashlib.sha384()
-		elif Tipo == "sha512": H = hashlib.sha512()
+		if   Tipo == "md5":    H = hashlib.md5()		# len(32)
+		elif Tipo == "sha1":   H = hashlib.sha1()		# len(40)
+		elif Tipo == "sha224": H = hashlib.sha224()		# len(56)
+		elif Tipo == "sha256": H = hashlib.sha256()		# len(64)
+		elif Tipo == "sha384": H = hashlib.sha384()		# len(96)
+		elif Tipo == "sha512": H = hashlib.sha512()		# len(128)
 		#~ elif Tipo == "ripemd160": H = hashlib.new('ripemd160')
 		
-		for C in L: H.update(chr(C))
+		
+		if PythonVer == '2':
+			for C in L: H.update(chr(C))
+		if PythonVer == '3':
+			for C in L: H.update(chr(C).encode('UTF-8'))
 		
 		hash = H.hexdigest()
 		
@@ -86,7 +91,7 @@ def GetHASH(Tipo, Cadena):
 	
 	Tipo = Tipo.lower()
 	
-	if PythonVer == "2":
+	if PythonVer == '2':
 		
 		for Algoritmo in hashlib.algorithms:
 			
@@ -101,7 +106,7 @@ def GetHASH(Tipo, Cadena):
 			elif Algoritmo == "sha512" and Tipo == "sha512": return str(H.hexdigest())
 			#~ elif Algoritmo == "ripemd160" and Tipo == "ripemd160": return str(H.hexdigest())
 	
-	elif PythonVer == "3":
+	elif PythonVer == '3':
 		
 		for Algoritmo in hashlib.algorithms_guaranteed:
 			
@@ -178,13 +183,13 @@ if __name__ == "__main__":
 	
 	os.system("Cls")
 	
-	#~ print(hashlib.algorithms_guaranteed)
-	#~ os.system("Pause")
+	print(hashlib.algorithms_guaranteed)
+	os.system("Pause")
 	
 	while True:
 		
-		if PythonVer == "2": Cadena = raw_input("\n\n\n\t [+] HASH: ")
-		elif PythonVer == "3": Cadena = input("\n\n\n\t [+] HASH: ")
+		if PythonVer == '2': Cadena = raw_input("\n\n\n\t [+] HASH: ")
+		elif PythonVer == '3': Cadena = input("\n\n\n\t [+] HASH: ")
 		
 		Tipo = SetTipoHASH(Cadena)
 		
