@@ -1,7 +1,7 @@
 # HashCrk
-## Genera o Crackea Hashes (MD5, SHA1, SH224, SHA256, SHA384, SHA512)
-## Python 2.X
-## Windows
+## Genera o Crackea Hashes (MD5, SHA1, SHA224, SHA256, SHA384, SHA512)
+## Versión de Script: v1.0.2
+## Python 2.X y 3.X - Windows
 
 - - -
 
