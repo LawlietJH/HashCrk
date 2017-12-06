@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # HashCrk.py
 # By: LawlietJH
-# v1.0.0
+# v1.0.1
 
 import hashlib
 import time
@@ -28,8 +28,10 @@ def Tiempo(Funcion):
 @Tiempo
 def HashCrk(HASH, Tipo):
 	
+	TI = time.time()
 	Cont = 0
 	L = []
+	L.append(32)
 	H = None
 	
 	while True:
@@ -42,30 +44,34 @@ def HashCrk(HASH, Tipo):
 		elif Tipo == "sha256": H = hashlib.sha256()
 		elif Tipo == "sha384": H = hashlib.sha384()
 		elif Tipo == "sha512": H = hashlib.sha512()
+		#~ elif Tipo == "ripemd160": H = hashlib.new('ripemd160')
 		
 		for C in L: H.update(chr(C))
 		
 		hash = H.hexdigest()
 		
-		if Cont % 12000 == 0: sys.stdout.writelines("\r  >  " + hash)
+		#~ if Cont % 12000 == 0: sys.stdout.writelines("\r  >  " + ''.join([chr(C) for C in L]) + " <- # " + str(Cont))
+		if Cont % 12000 == 0: 
+			TF = time.time()
+			sys.stdout.writelines("\r  >  " + hash + " <- Tiempo: {:0.3f} s".format(float(TF-TI)))
 		
 		if hash == HASH:
 			
-			sys.stdout.writelines("\r  >  " + hash)
+			sys.stdout.writelines("\r  >  " + hash + " <- Tiempo: {:0.3f} s".format(float(TF-TI)))
 			return ''.join([chr(C) for C in L])
 		
 		Envuelto = True
 		
 		for x in range(0, len(L)):
 			
-			L[x] = (L[x] + 1) % 256
+			L[x] = ((L[x] + 1) % 127)
 			
 			if L[x] != 0:
-				
 				Envuelto = False
 				break
+			else: L[x] = 32
 			
-		if Envuelto: L.append(0)
+		if Envuelto: L.append(32)
 
 
 
