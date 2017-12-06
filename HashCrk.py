@@ -86,17 +86,34 @@ def GetHASH(Tipo, Cadena):
 	
 	Tipo = Tipo.lower()
 	
-	for Algoritmo in hashlib.algorithms:
+	if PythonVer == "2":
 		
-		H = getattr(hashlib, Algoritmo)()
-		H.update(Cadena)
+		for Algoritmo in hashlib.algorithms:
+			
+			H = getattr(hashlib, Algoritmo)()
+			H.update(Cadena)
+			
+			if   Algoritmo == "md5"    and Tipo == "md5":	 return str(H.hexdigest())
+			elif Algoritmo == "sha1"   and Tipo == "sha1":	 return str(H.hexdigest())
+			elif Algoritmo == "sha224" and Tipo == "sha224": return str(H.hexdigest())
+			elif Algoritmo == "sha256" and Tipo == "sha256": return str(H.hexdigest())
+			elif Algoritmo == "sha384" and Tipo == "sha384": return str(H.hexdigest())
+			elif Algoritmo == "sha512" and Tipo == "sha512": return str(H.hexdigest())
+			#~ elif Algoritmo == "ripemd160" and Tipo == "ripemd160": return str(H.hexdigest())
+	
+	elif PythonVer == "3":
 		
-		if   Algoritmo == "md5"    and Tipo == "md5":	 return str(H.hexdigest())
-		elif Algoritmo == "sha1"   and Tipo == "sha1":	 return str(H.hexdigest())
-		elif Algoritmo == "sha224" and Tipo == "sha224": return str(H.hexdigest())
-		elif Algoritmo == "sha256" and Tipo == "sha256": return str(H.hexdigest())
-		elif Algoritmo == "sha384" and Tipo == "sha384": return str(H.hexdigest())
-		elif Algoritmo == "sha512" and Tipo == "sha512": return str(H.hexdigest())
+		for Algoritmo in hashlib.algorithms_guaranteed:
+			
+			H = getattr(hashlib, Algoritmo)()
+			H.update(Cadena.encode('UTF-8'))
+			
+			if   Algoritmo == "md5"    and Tipo == "md5":	 return str(H.hexdigest())
+			elif Algoritmo == "sha1"   and Tipo == "sha1":	 return str(H.hexdigest())
+			elif Algoritmo == "sha224" and Tipo == "sha224": return str(H.hexdigest())
+			elif Algoritmo == "sha256" and Tipo == "sha256": return str(H.hexdigest())
+			elif Algoritmo == "sha384" and Tipo == "sha384": return str(H.hexdigest())
+			elif Algoritmo == "sha512" and Tipo == "sha512": return str(H.hexdigest())
 
 
 
@@ -114,6 +131,8 @@ def SetTipoHASH(Cadena):
 	elif Cadena.lower().endswith(  "sha384"):	return "sha384"
 	elif Cadena.lower().startswith("sha512"):	return "sha512"
 	elif Cadena.lower().endswith(  "sha512"):	return "sha512"
+	#~ elif Cadena.lower().startswith("ripemd160"):	return "ripemd160"
+	#~ elif Cadena.lower().endswith(  "ripemd160"):	return "ripemd160"
 	else:
 		
 		print("\n\n\n\n [!] Indica El Tipo De HASH Al Principio o Al Final:")
@@ -139,6 +158,8 @@ def SetCadena(Cadena):
 	elif Cadena.lower().endswith(  "sha384"):	return Cadena.split(" sha384")[0]
 	elif Cadena.lower().startswith("sha512"):	return Cadena.split("sha512 ")[1]
 	elif Cadena.lower().endswith(  "sha512"):	return Cadena.split(" sha512")[0]
+	#~ elif Cadena.lower().startswith("ripemd160"):	return Cadena.split("ripemd160 ")[1]
+	#~ elif Cadena.lower().endswith(  "ripemd160"):	return Cadena.split(" ripemd160")[0]
 	
 	return None
 
@@ -156,6 +177,9 @@ def EsHASH(Cadena):
 if __name__ == "__main__":
 	
 	os.system("Cls")
+	
+	#~ print(hashlib.algorithms_guaranteed)
+	#~ os.system("Pause")
 	
 	while True:
 		
@@ -183,6 +207,6 @@ if __name__ == "__main__":
 		
 		else:
 			
-			print("\n\n\t [+] HASH " + Tipo + ": " + HASH + "\n\n")
+			print("\n\n\t [+] HASH " + Tipo + ": " + str(HASH) + "\n\n")
 
 
