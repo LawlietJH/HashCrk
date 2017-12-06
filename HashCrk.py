@@ -1,12 +1,19 @@
 # -*- coding: utf-8 -*-
+
+# Python 2.x y 3.X
+# Windows
+
 # HashCrk.py
 # By: LawlietJH
-# v1.0.1
+# v1.0.2
 
 import hashlib
 import time
 import sys
 import os
+
+PythonVer = sys.version[0]
+Version = "v.1.0.2"
 
 
 
@@ -152,7 +159,8 @@ if __name__ == "__main__":
 	
 	while True:
 		
-		Cadena = raw_input("\n\n\n\t [+] HASH: ")
+		if PythonVer == "2": Cadena = raw_input("\n\n\n\t [+] HASH: ")
+		elif PythonVer == "3": Cadena = input("\n\n\n\t [+] HASH: ")
 		
 		Tipo = SetTipoHASH(Cadena)
 		
